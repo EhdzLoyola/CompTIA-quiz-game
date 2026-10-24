@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA AI Prompting Essentials - Master Prep Quiz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        cyber: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155',
+                            accent: '#38bdf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styling for printable certificate and sleek scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-certificate, #printable-certificate * {
+                visibility: visible;
+            }
+            #printable-certificate {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Bar -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-indigo-500 to-cyan-400 p-2 rounded-xl text-white shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-brain text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-none bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">CompTIA AI Prep</h1>
+                    <p class="text-xs text-slate-400 font-mono mt-0.5">Prompting Essentials Mastery</p>
+                </div>
+            </div>
+            <div id="header-user-info" class="hidden items-center space-x-4">
+                <div class="text-right hidden sm:block">
+                    <div id="display-user-name" class="text-sm font-semibold text-slate-200">Candidate Name</div>
+                    <div class="text-xs text-slate-400 font-mono" id="quiz-progress-text">0 / 75 Answered</div>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg flex items-center space-x-2 font-mono text-cyan-400 text-sm">
+                    <i class="fa-regular fa-clock text-xs"></i>
+                    <span id="timer-display">00:00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col justify-center">
+
+        <!-- 1. LANDING & REGISTRATION SCREEN -->
+        <section id="screen-welcome" class="max-w-2xl mx-auto w-full space-y-6 my-auto">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="text-center space-y-3 mb-8">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                        Official Exam Specification
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Certification Readiness Exam</h2>
+                    <p class="text-slate-400 text-sm">Test your knowledge across all 75 questions in AI & LLM Fundamentals, Prompt Engineering, Advanced Workflows, and Ethics.</p>
+                </div>
+
+                <form id="form-registration" class="space-y-6" onsubmit="event.preventDefault(); startQuiz();">
+                    <div class="space-y-2">
+                        <label for="input-name" class="block text-sm font-medium text-slate-300">
+                            Candidate Full Name <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-user text-sm"></i>
+                            </div>
+                            <input type="text" id="input-name" required placeholder="e.g. Alex Mercer" 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-slate-100 placeholder-slate-600 outline-none transition text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 py-2 text-xs font-mono text-slate-400 border-y border-slate-800/80">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-list-check text-indigo-400"></i>
+                            <span>75 Total Questions</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-shuffle text-indigo-400"></i>
+                            <span>Randomized Questions & Options</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-lock text-indigo-400"></i>
+                            <span>100% Completion Required</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-graduation-cap text-indigo-400"></i>
+                            <span>Detailed Explanations</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-500/50 transition-all duration-200 flex items-center justify-center space-x-2 text-sm">
+                        <span>Begin Certification Exam</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 2. ACTIVE QUIZ INTERFACE -->
+        <section id="screen-quiz" class="hidden flex-col space-y-6">
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="w-full sm:w-2/3 bg-slate-950 rounded-full h-3 overflow-hidden border border-slate-800">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full transition-all duration-300 w-0"></div>
+                </div>
+                <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-3 text-xs font-mono">
+                    <span id="answered-badge" class="px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                        0 / 75 Answered
+                    </span>
+                    <button onclick="toggleGridModal(true)" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700 flex items-center space-x-1.5 transition">
+                        <i class="fa-solid fa-border-all text-xs"></i>
+                        <span>Grid View</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Main Question Box -->
+                <div class="lg:col-span-3 space-y-4">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-8 shadow-xl flex flex-col justify-between min-h-[420px]">
+                        <div>
+                            <!-- Domain Tag & Flag Header -->
+                            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                                <span id="question-domain-tag" class="text-xs font-semibold px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                                    Domain 1: Fundamentals
+                                </span>
+                                <button id="btn-flag-question" onclick="toggleFlagCurrentQuestion()" class="text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/50 text-slate-400 hover:text-amber-400 hover:border-amber-500/30 transition flex items-center space-x-1.5">
+                                    <i class="fa-regular fa-bookmark"></i>
+                                    <span id="flag-btn-text">Flag for Review</span>
+                                </button>
+                            </div>
+
+                            <!-- Question Number & Prompt -->
+                            <div class="space-y-3">
+                                <h3 id="question-number-title" class="text-xs font-mono text-indigo-400 font-semibold tracking-wider uppercase">
+                                    Question 1 of 75
+                                </h3>
+                                <p id="question-text" class="text-base sm:text-lg font-medium text-slate-100 leading-relaxed">
+                                    Loading question...
+                                </p>
+                            </div>
+
+                            <!-- Multiple Choice Options -->
+                            <div id="options-container" class="mt-6 space-y-3">
+                                <!-- Dynamic Options inserted here -->
+                            </div>
+                        </div>
+
+                        <!-- Footer Control Buttons -->
+                        <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-800">
+                            <button id="btn-prev-q" onclick="navigateQuestion(-1)" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl border border-slate-700 transition flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                                <span>Previous</span>
+                            </button>
+
+                            <button onclick="jumpToReviewScreen()" class="px-4 py-2.5 bg-slate-800/80 hover:bg-slate-800 text-indigo-300 border border-indigo-500/30 text-xs sm:text-sm font-semibold rounded-xl transition flex items-center space-x-2">
+                                <i class="fa-solid fa-list-check"></i>
+                                <span>Review Summary</span>
+                            </button>
+
+                            <button id="btn-next-q" onclick="navigateQuestion(1)" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2">
+                                <span id="next-btn-text">Next</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Sidebar Question Palette -->
+                <div class="hidden lg:block lg:col-span-1">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sticky top-24 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h4 class="text-xs font-bold font-mono text-slate-300 uppercase tracking-wider">Question Navigator</h4>
+                            <span class="text-[10px] text-slate-500 font-mono">75 Items</span>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-400">
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-2.5 h-2.5 rounded-sm bg-indigo-600"></span>
+                                <span>Answered</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-2.5 h-2.5 rounded-sm bg-slate-800 border border-slate-700"></span>
+                                <span>Unanswered</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span>
+                                <span>Flagged</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-2.5 h-2.5 rounded-sm ring-2 ring-cyan-400"></span>
+                                <span>Current</span>
+                            </div>
+                        </div>
+
+                        <!-- 75 Grid Palette -->
+                        <div id="desktop-grid-palette" class="grid grid-cols-5 gap-1.5 max-h-[360px] overflow-y-auto pr-1">
+                            <!-- Items dynamically injected -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PRE-SUBMISSION REVIEW SCREEN -->
+        <section id="screen-review" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+                    <div>
+                        <span class="text-xs font-mono font-semibold text-indigo-400 uppercase tracking-wider">Verification Step</span>
+                        <h2 class="text-2xl font-bold text-white mt-1">Exam Review Summary</h2>
+                        <p class="text-slate-400 text-xs sm:text-sm mt-1">Review your answers before grading. All 75 questions must be answered to unlock evaluation.</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="returnToQuizFromReview()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs sm:text-sm font-semibold rounded-xl border border-slate-700 transition flex items-center space-x-2">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Back to Exam</span>
+                        </button>
+                        <button id="btn-final-grade" onclick="confirmFinalSubmission()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg shadow-emerald-600/30 transition flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-check-double"></i>
+                            <span>Submit & Grade Exam</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Unanswered Warning Banner -->
+                <div id="review-warning-banner" class="hidden bg-rose-500/10 border border-rose-500/30 rounded-xl p-4 flex items-start space-x-3 text-rose-300 text-xs sm:text-sm">
+                    <i class="fa-solid fa-triangle-exclamation text-rose-400 text-base mt-0.5"></i>
+                    <div class="flex-1">
+                        <span class="font-bold">Completion Required:</span> <span id="warning-count-text">Some questions remain unanswered.</span>
+                        <button onclick="jumpToFirstUnanswered()" class="underline font-semibold ml-2 hover:text-white">Jump to first unanswered question</button>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="flex items-center justify-between text-xs font-mono">
+                    <div class="flex space-x-2">
+                        <button onclick="filterReviewTable('all')" id="filter-review-all" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold">All (75)</button>
+                        <button onclick="filterReviewTable('unanswered')" id="filter-review-unanswered" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700">Unanswered</button>
+                        <button onclick="filterReviewTable('flagged')" id="filter-review-flagged" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700">Flagged</button>
+                    </div>
+                    <span id="review-completion-status" class="text-slate-400">0 / 75 Answered</span>
+                </div>
+
+                <!-- Summary List Table -->
+                <div class="border border-slate-800 rounded-xl overflow-hidden max-h-[500px] overflow-y-auto">
+                    <table class="w-full text-left text-xs sm:text-sm text-slate-300">
+                        <thead class="bg-slate-950 text-slate-400 font-mono text-[11px] uppercase sticky top-0 border-b border-slate-800">
+                            <tr>
+                                <th class="p-3 w-16 text-center">#</th>
+                                <th class="p-3">Question Prompt</th>
+                                <th class="p-3 w-32">Status</th>
+                                <th class="p-3 w-28 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="review-table-body" class="divide-y divide-slate-800/60 bg-slate-900/50">
+                            <!-- Injected rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. RESULTS & DETAILED DASHBOARD -->
+        <section id="screen-results" class="hidden space-y-8 my-6">
+            
+            <!-- Score Card & Certificate Preview -->
+            <div id="printable-certificate" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-10 shadow-2xl relative overflow-hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6">
+                    <div>
+                        <span class="text-xs font-mono font-bold text-indigo-400 tracking-wider uppercase">Official Evaluation</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">CompTIA AI Assessment Result</h2>
+                        <p class="text-slate-400 text-xs sm:text-sm mt-0.5">Candidate: <span id="results-candidate-name" class="text-white font-bold">Name</span></p>
+                    </div>
+                    <div id="pass-fail-badge" class="px-5 py-2.5 rounded-xl font-bold text-sm uppercase tracking-wider flex items-center space-x-2 border shadow-lg">
+                        <i id="pass-fail-icon" class="fa-solid fa-award text-base"></i>
+                        <span id="pass-fail-text">PASSED</span>
+                    </div>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center space-y-1">
+                        <div class="text-slate-400 text-xs font-mono">Score Percentage</div>
+                        <div id="result-score-percent" class="text-2xl sm:text-3xl font-black text-indigo-400">0%</div>
+                        <div id="result-score-ratio" class="text-[11px] text-slate-500 font-mono">0 / 75 Correct</div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center space-y-1">
+                        <div class="text-slate-400 text-xs font-mono">Passing Cutoff</div>
+                        <div class="text-2xl sm:text-3xl font-black text-slate-300">80%</div>
+                        <div class="text-[11px] text-slate-500 font-mono">60 / 75 Minimum</div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center space-y-1">
+                        <div class="text-slate-400 text-xs font-mono">Time Elapsed</div>
+                        <div id="result-time-taken" class="text-2xl sm:text-3xl font-black font-mono text-cyan-400">00:00</div>
+                        <div class="text-[11px] text-slate-500 font-mono">Duration</div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center space-y-1">
+                        <div class="text-slate-400 text-xs font-mono">Accuracy Rating</div>
+                        <div id="result-accuracy-rating" class="text-2xl sm:text-3xl font-black text-emerald-400">High</div>
+                        <div class="text-[11px] text-slate-500 font-mono">Overall Proficiency</div>
+                    </div>
+                </div>
+
+                <!-- Domain Performance Breakdown -->
+                <div class="space-y-3 pt-2">
+                    <h3 class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">Domain Performance Analysis</h3>
+                    <div id="domain-breakdown-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Dynamic domain bars -->
+                    </div>
+                </div>
+
+                <!-- Actions Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-slate-800 print:hidden">
+                    <button onclick="window.print()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl border border-slate-700 transition flex items-center space-x-2">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Print Score Report</span>
+                    </button>
+                    <button onclick="restartFullQuiz()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Retake Exam (Re-Shuffled)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Detailed Question Audit Section -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Comprehensive Question Audit</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm mt-0.5">Review full explanations and answer comparisons for all 75 questions.</p>
+                    </div>
+                    <!-- Audit Filters -->
+                    <div class="flex space-x-2 font-mono text-xs">
+                        <button onclick="filterResultsAudit('all')" id="audit-filter-all" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold">All (75)</button>
+                        <button onclick="filterResultsAudit('incorrect')" id="audit-filter-incorrect" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700">Incorrect Only</button>
+                        <button onclick="filterResultsAudit('flagged')" id="audit-filter-flagged" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700">Flagged Only</button>
+                    </div>
+                </div>
+
+                <!-- Questions Detailed List -->
+                <div id="results-audit-container" class="space-y-4">
+                    <!-- Detailed question cards injected here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Grid Navigator (Mobile & Quick View) -->
+    <div id="modal-grid" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-bold font-mono text-slate-200 uppercase">Question Grid Navigator</h3>
+                <button onclick="toggleGridModal(false)" class="text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono text-slate-400 py-1">
+                <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-indigo-600"></span><span>Answered</span></div>
+                <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-slate-800 border border-slate-700"></span><span>Unanswered</span></div>
+                <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-amber-500"></span><span>Flagged</span></div>
+                <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded ring-2 ring-cyan-400"></span><span>Current</span></div>
+            </div>
+
+            <div id="modal-grid-palette" class="grid grid-cols-5 sm:grid-cols-8 gap-2 max-h-[320px] overflow-y-auto p-1">
+                <!-- Modal Grid items injected -->
+            </div>
+
+            <div class="pt-2 text-right">
+                <button onclick="toggleGridModal(false)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-900/50 py-4 text-center text-xs text-slate-500 font-mono">
+        CompTIA AI Prompting Essentials Certification Practice System &bull; 75 Questions Complete Set
+    </footer>
+
+    <!-- SCRIPT ENGINE & DATA STORE -->
+    <script>
+        // --- 75 QUESTIONS DATASET ---
+        const MASTER_QUESTIONS = [
+            // Domain 1: Fundamentals of AI and LLMs (1-18)
+            { id: 1, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What is the primary purpose of a Large Language Model (LLM)?", choices: ["To store files in the cloud", "To predict the next most appropriate word in a text sequence", "To compile source code for games", "To scan for malware on a computer"], answer: 1, explanation: "LLMs are trained to understand patterns in text and calculate the probability of the next token or word, allowing them to generate coherent sentences." },
+            { id: 2, domain: "Domain 1: Fundamentals of AI & LLMs", question: "Which term refers to the behavior of AI where it provides an answer that looks correct but is actually fabricated or false?", choices: ["Overfitting", "Hallucination", "Bias", "Tokenization"], answer: 1, explanation: "A hallucination happens when an LLM generates plausible-sounding but completely incorrect or fabricated information because it predicts words based on statistical patterns rather than factual truth." },
+            { id: 3, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What is the meaning of \"Context Window\" in an LLM?", choices: ["The monitor size used by the AI developer", "The total amount of text (tokens) that the AI can process in a single pass", "The time it takes for the AI to respond", "The number of languages known by the AI"], answer: 1, explanation: "The context window defines the maximum capacity (input plus output tokens) a model can handle in one active session or prompt." },
+            { id: 4, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What is called the smallest unit of text (such as a syllable, word, or punctuation mark) read and processed by an LLM?", choices: ["Byte", "Pixel", "Token", "Node"], answer: 2, explanation: "Tokens are the foundational building blocks of text for LLMs, where text is broken down into chunks before being processed mathematically." },
+            { id: 5, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What does \"Prompting\" mean?", choices: ["Formatting a hard drive using AI", "The act of providing input or instructions to AI to get a desired output", "Encrypting sensitive data", "Writing complex Python back-end code"], answer: 1, explanation: "Prompting is the primary method of communicating with generative AI models to direct their behavior and text generation." },
+            { id: 6, domain: "Domain 1: Fundamentals of AI & LLMs", question: "Why is it important to know that LLMs are \"probabilistic\" and not \"deterministic\"?", choices: ["Because the AI's answer is always identical every time", "Because their answers are based on probability, so results can vary even with the same prompt", "Because they do not use electricity", "Because they are just calculators with an interface"], answer: 1, explanation: "Because LLMs sample from probability distributions, they do not output hardcoded fixed rules (deterministic), meaning outputs can change across runs unless parameters are strictly controlled." },
+            { id: 7, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What does the \"Temperature\" setting mean in an AI playground or API?", choices: ["The heat of the CPU while processing AI", "The level of creativity or randomness in the AI's response", "The speed of the internet connection", "The character limit of the output"], answer: 1, explanation: "Temperature controls the randomness of the model's predictions; higher values increase creativity, while lower values make output more predictable." },
+            { id: 8, domain: "Domain 1: Fundamentals of AI & LLMs", question: "If you want a very formal, precise, and consistent response from the AI, what Temperature setting is best?", choices: ["1.0", "1.5", "0.0 or very low", "2.0"], answer: 2, explanation: "A temperature of 0.0 makes the model choose the highest-probability token every time, yielding deterministic and consistent outputs." },
+            { id: 9, domain: "Domain 1: Fundamentals of AI & LLMs", question: "Which part of Generative AI is responsible for understanding human natural language?", choices: ["NLP (Natural Language Processing)", "SQL (Structured Query Language)", "FTP (File Transfer Protocol)", "HTML (Hypertext Markup Language)"], answer: 0, explanation: "Natural Language Processing (NLP) is the branch of AI that gives machines the ability to read, decipher, and understand human language." },
+            { id: 10, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What does \"Zero-shot prompting\" mean?", choices: ["Asking the AI for an answer without providing any examples", "Providing ten examples before asking a question", "Turning off the AI before inputting", "Using voice instead of text"], answer: 0, explanation: "Zero-shot prompting means presenting a task to the model without giving any prior examples of desired inputs and outputs." },
+            { id: 11, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What is the difference between Generative AI and Traditional AI?", choices: ["Traditional AI creates new art, generative does not", "Generative AI creates new content; traditional classifies or analyzes existing data", "There is no difference between the two", "Traditional AI does not use algorithms"], answer: 1, explanation: "Traditional AI focuses on classification, prediction, and analysis of structured or existing data, whereas Generative AI creates novel text, images, code, or audio." },
+            { id: 12, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What is the process of adjusting or re-training a pre-trained model on a more specific dataset called?", choices: ["Tokenization", "Fine-tuning", "Scraping", "Prompt Chaining"], answer: 1, explanation: "Fine-tuning adapts a general base model to a specialized domain or task by training it further on domain-specific datasets." },
+            { id: 13, domain: "Domain 1: Fundamentals of AI & LLMs", question: "Which of the following is an example of multimodal AI?", choices: ["An AI that only accepts plain text", "An AI calculator that only shows numbers", "An AI that can accept text, images, and voice as input simultaneously", "A text editor with spellcheck"], answer: 2, explanation: "Multimodal AI systems can process and reason across multiple modalities (types of media) like text, images, audio, and video at the same time." },
+            { id: 14, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What is the main limitation of an LLM without internet access?", choices: ["It cannot save files to the desktop", "Its knowledge of recent events after its last training data cutoff is limited or missing (Knowledge Cutoff)", "It will not work without a mouse", "Its graphics performance will run slower"], answer: 1, explanation: "Without live retrieval tools, an LLM relies strictly on the static knowledge it learned during its initial training phase." },
+            { id: 15, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What is the deep learning architecture that revolutionized LLM capabilities by using a \"self-attention mechanism\"?", choices: ["Recurrent Neural Network (RNN)", "Transformer", "Binary Tree", "Linear Regression"], answer: 1, explanation: "The Transformer architecture introduced the self-attention mechanism, allowing models to weigh the significance of different words in a sequence regardless of their positional distance." },
+            { id: 16, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What does a \"System Prompt\" or \"System Message\" do in an LLM?", choices: ["It changes the operating system of the computer", "It sets the general behavior, role, and permanent rules of the AI throughout the chat session", "It sends an email to the admin", "It deletes temporary files"], answer: 1, explanation: "System prompts act as overarching instructions that guide the model's persona, boundaries, and formatting style for the duration of the conversation." },
+            { id: 17, domain: "Domain 1: Fundamentals of AI & LLMs", question: "What does \"Top-P\" (Nucleus Sampling) mean in AI parameter adjustments?", choices: ["The highest price of an AI subscription", "Choosing the next word from a pool of words whose cumulative probability reaches a set percentage", "The maximum tokens returned by the AI", "The number of processors used"], answer: 1, explanation: "Top-P restricts word selection to a dynamic subset of vocabulary whose combined probabilities add up to the specified threshold (e.g., P = 0.9)." },
+            { id: 18, domain: "Domain 1: Fundamentals of AI & LLMs", question: "How does identifying the \"Target Audience\" within a prompt help?", choices: ["It speeds up the AI's internet speed", "It helps the AI adjust its tone, vocabulary, and depth of explanation to suit the reader", "It prevents the AI from experiencing a system crash", "It removes the need for tokens"], answer: 1, explanation: "Specifying an audience gives the LLM clear context on how simple, complex, formal, or casual the communication style should be." },
+
+            // Domain 2: Prompt Engineering Techniques (19-37)
+            { id: 19, domain: "Domain 2: Prompt Engineering", question: "Which of the following are the three main elements of an effective prompt?", choices: ["Color, Font, and Background", "Context, Instruction, and Input Data", "Username, Password, and IP Address", "HTML tag, CSS class, and JavaScript function"], answer: 1, explanation: "A well-structured prompt typically provides context, clear instructions, and the relevant input data to be evaluated or transformed." },
+            { id: 20, domain: "Domain 2: Prompt Engineering", question: "What does \"Few-shot prompting\" mean?", choices: ["Using very few words in the prompt", "Providing one or more examples of the desired input and output inside the prompt", "Pressing enter quickly", "Asking for a short paragraph from the AI"], answer: 1, explanation: "Few-shot prompting guides the model by supplying a few input-output demonstrations so it can mimic the pattern for subsequent queries." },
+            { id: 21, domain: "Domain 2: Prompt Engineering", question: "What technique is used when you tell the AI to think step-by-step using the phrase \"Let's think step by step\"?", choices: ["Meta-prompting", "Chain-of-Thought (CoT) prompting", "Directional-stimulus prompting", "Negative prompting"], answer: 1, explanation: "Chain-of-Thought prompting encourages the model to break down complex problems sequentially, drastically improving reasoning accuracy." },
+            { id: 22, domain: "Domain 2: Prompt Engineering", question: "Why is \"Role-based prompting\" (e.g., \"Act as a senior software engineer\") effective?", choices: ["It increases the user's AI salary", "It frames the AI's knowledge and tone within the specific expert context specified", "It turns the AI into a human", "It reduces electricity bills"], answer: 1, explanation: "Assigning a persona helps activate relevant specialized patterns and domain terminology in the model's training weights." },
+            { id: 23, domain: "Domain 2: Prompt Engineering", question: "What is the purpose of \"Negative Prompts\" in AI Image Generation (such as Midjourney or Stable Diffusion)?", choices: ["To make the picture look sad", "To specify what objects you DO NOT want to see or include in the generated image", "To ruin image quality", "To delete prompt history"], answer: 1, explanation: "Negative prompts tell the generation engine elements to actively avoid adding into the final visual output." },
+            { id: 24, domain: "Domain 2: Prompt Engineering", question: "How can you use \"Delimiters\" (such as triple quotes \"\"\" or XML tags <text></text>) in your prompt?", choices: ["To make the prompt look like a hacker", "To clearly separate instructions from the actual data or text being analyzed", "To force the AI to use emojis", "To restart the AI session"], answer: 1, explanation: "Delimiters prevent prompt injection confusion by cleanly distinguishing operational guidelines from user-supplied data content." },
+            { id: 25, domain: "Domain 2: Prompt Engineering", question: "What does \"Prompt Chaining\" mean?", choices: ["Locking the AI with a password", "Splitting a complex task into sequential prompts where the output of one becomes the input of the next", "Using multiple AI tools at the same time", "Copy-pasting the same prompt 100 times"], answer: 1, explanation: "Prompt chaining modularizes multi-step workflows, improving reliability and control over complex operations." },
+            { id: 26, domain: "Domain 2: Prompt Engineering", question: "What type of prompt shows good structure for Sentiment Analysis?", choices: ["\"Analyze this.\"", "\"Analyze the sentiment of the following text: [Insert text]. Choose only from: Positive, Negative, or Neutral.\"", "\"Write a poem about emotions.\"", "\"What does emotion mean?\""], answer: 1, explanation: "Providing explicit choices and structured constraints ensures the model outputs classified labels cleanly without unnecessary conversational fluff." },
+            { id: 27, domain: "Domain 2: Prompt Engineering", question: "Which of the following is the best way to avoid vague output from AI?", choices: ["Use capital letters throughout the prompt", "Be specific, clear, and set boundaries or constraints on the output", "Do not use punctuation", "Repeatedly click the submit button"], answer: 1, explanation: "Clear parameters, explicit goals, and formatting constraints drastically reduce ambiguity in AI-generated responses." },
+            { id: 28, domain: "Domain 2: Prompt Engineering", question: "What does \"Iterative Prompt Refining\" mean?", choices: ["Copying a prompt from the internet without changes", "Continuously editing, refining, and adjusting the prompt based on previous AI responses until the perfect result is achieved", "Deleting the entire account on the AI platform", "Compiling a prompt using a C++ compiler"], answer: 1, explanation: "Iterative refinement is a feedback-driven process of tweaking prompts to polish and correct model performance step-by-step." },
+            { id: 29, domain: "Domain 2: Prompt Engineering", question: "What does an \"Output Indicator\" or \"Format Constraint\" do in a prompt?", choices: ["It tells the AI what brand of computer you are using", "It dictates the specific format of the answer such as JSON, a Markdown table, or a bulleted list", "It stops the AI from answering", "It limits the AI's internet speed"], answer: 1, explanation: "Format constraints force the model to structure its output into designated layouts suitable for downstream parsing or human reading." },
+            { id: 30, domain: "Domain 2: Prompt Engineering", question: "If you want the AI to summarize a long article for an 8-year-old child, which is the best prompt?", choices: ["\"Summarize this.\"", "\"Summarize this article in simple words that a 3rd-grade child can easily understand.\"", "\"Make this text short using formal English.\"", "\"Analyze this article for science experts.\""], answer: 1, explanation: "This prompt explicitly defines the target reading level, vocabulary constraints, and simplification goal." },
+            { id: 31, domain: "Domain 2: Prompt Engineering", question: "What does \"Shot\" mean in the context of prompt engineering?", choices: ["A photo from a camera", "An example provided to the AI to guide the output design", "A malware attack", "A single mouse click"], answer: 1, explanation: "In prompting terminology, \"shots\" refer to demonstration examples (e.g., zero-shot = 0 examples, few-shot = multiple examples)." },
+            { id: 32, domain: "Domain 2: Prompt Engineering", question: "Which of the following is a technique where the AI itself is asked what further information it needs before giving a final answer?", choices: ["Reverse Prompting", "Flip the Script / Question Generation Prompting", "Silent Prompting", "Static Prompting"], answer: 1, explanation: "Asking the model to interrogate the user for missing details first ensures it has full context before executing a complex request." },
+            { id: 33, domain: "Domain 2: Prompt Engineering", question: "How does \"Persona Prompting\" help in Customer Service automation?", choices: ["It allows the AI to steal human identity", "It gives the AI the trait of being \"a polite, helpful, and patient customer support agent\" in conversation", "It helps the AI sell hardware without permission", "It makes database migration faster"], answer: 1, explanation: "Persona framing instills consistent customer service etiquette, tone, and empathy patterns into the conversational agent." },
+            { id: 34, domain: "Domain 2: Prompt Engineering", question: "What is the risk called when a long chat session exceeds the Context Window of an LLM?", choices: ["The AI begins to forget the early details or instructions given at the beginning of the conversation", "The user's computer will catch fire", "Browser history will be deleted", "The AI will suddenly become smarter"], answer: 0, explanation: "As token counts exceed context boundaries, older segments of the conversation fall out of active memory (attention span)." },
+            { id: 35, domain: "Domain 2: Prompt Engineering", question: "Which prompt demonstrates effective use of \"Constraints\"?", choices: ["\"Write an article about health.\"", "\"Write a 300-word article about health, do not use medical jargon, and make the conclusion bullet points.\"", "\"Give health information quickly.\"", "\"How to be healthy?\""], answer: 1, explanation: "This option establishes firm boundaries regarding word count, technical terminology restrictions, and conclusion formatting." },
+            { id: 36, domain: "Domain 2: Prompt Engineering", question: "What is the purpose of \"Few-shot Image Prompting\"?", choices: ["Uploading many pictures just to fill storage", "Showing the image generator style references to achieve similar aesthetics", "Cropping an image using Photoshop before prompting", "Lowering output resolution"], answer: 1, explanation: "Providing reference images helps image generation models capture specific artistic styles, compositions, or color grading." },
+            { id: 37, domain: "Domain 2: Prompt Engineering", question: "What does \"Self-Consistency\" mean in advanced prompt engineering?", choices: ["Forcing the AI not to update versions", "Running the same prompt multiple times and picking the most common or consistent answer from different reasoning paths", "Using an easy-to-remember password", "Checking if the AI is online using a ping command"], answer: 1, explanation: "Self-consistency samples multiple reasoning paths and selects the consensus answer to minimize random errors." },
+
+            // Domain 3: Advanced Applications and Workflows (38-56)
+            { id: 38, domain: "Domain 3: Advanced Applications", question: "What does \"RAG\" mean in the context of AI?", choices: ["Random Access Graph", "Retrieval-Augmented Generation", "Redundant Array of Gateways", "Real-time AI Government"], answer: 1, explanation: "RAG is a framework that combines external information retrieval with text generation to ground LLM responses in factual documents." },
+            { id: 39, domain: "Domain 3: Advanced Applications", question: "How does Retrieval-Augmented Generation (RAG) work?", choices: ["It deletes the AI's memory before prompting", "It retrieves external documents or data from a secure database and embeds them into the AI's prompt to ensure answers are accurate and up-to-date", "It turns text prompts into videos", "It automatically replaces the computer's GPU"], answer: 1, explanation: "RAG dynamically fetches relevant source data snippets and passes them alongside the user query so the LLM can synthesize an answer grounded in that specific data." },
+            { id: 40, domain: "Domain 3: Advanced Applications", question: "What is the main benefit of RAG compared to Fine-Tuning?", choices: ["RAG is more expensive and takes longer to do", "RAG allows the AI to use dynamic and up-to-date private data without requiring expensive and time-consuming model re-training", "RAG does not use prompts", "RAG is only for generating images"], answer: 1, explanation: "RAG updates knowledge base files instantly without touching model weights, whereas fine-tuning requires expensive retraining cycles." },
+            { id: 41, domain: "Domain 3: Advanced Applications", question: "What is the definition of an \"AI Agent\"?", choices: ["A person selling AI software to companies", "An autonomous system powered by an LLM with the ability to plan, use external tools (like web search or calculator), and execute steps to achieve a goal", "A type of computer virus", "Government call center software"], answer: 1, explanation: "AI agents operate iteratively with agency, breaking down goals, executing tasks, and utilizing external software tools independently." },
+            { id: 42, domain: "Domain 3: Advanced Applications", question: "What does \"Tool Use\" or \"Function Calling\" mean in modern LLMs?", choices: ["Downloading new games on the computer", "The ability of the AI to connect and send commands to external APIs, databases, or code interpreters to solve complex problems", "Buying hardware tools using an AI credit card", "Formatting a computer keyboard"], answer: 1, explanation: "Function calling enables LLMs to interface securely with programmatic tools, turning them from text predictors into action-oriented problem solvers." },
+            { id: 43, domain: "Domain 3: Advanced Applications", question: "In building an AI workflow, what does \"Human-in-the-Loop\" (HITL) mean?", choices: ["Allowing AI to control human life", "The process where a human reviews, verifies, or edits the AI's response before it is finalized or sent to a client", "A human running around a server room", "An infinite programming loop that crashes systems"], answer: 1, explanation: "HITL ensures safety and accuracy by inserting human oversight checkpoints into automated AI execution pipelines." },
+            { id: 44, domain: "Domain 3: Advanced Applications", question: "Which of the following is the best use of AI in software development?", choices: ["Automatically writing boilerplate code, finding syntax errors, and generating test cases based on prompts", "Replacing all human developers without supervision", "Repairing a physically broken motherboard", "Speeding up office electricity"], answer: 0, explanation: "LLMs excel at accelerating developer workflows through code generation, debugging assistance, and test case creation." },
+            { id: 45, domain: "Domain 3: Advanced Applications", question: "What is the definition of a \"Vector Database\" in AI enterprise workflows?", choices: ["A database for 2D vector graphics", "A specialized database that stores data as \"mathematical embeddings\" to quickly find semantic similarity of texts for RAG", "An old, unused Excel file", "A spreadsheet for tracking employee salaries"], answer: 1, explanation: "Vector databases store numerical embeddings of data chunks, enabling lightning-fast semantic similarity searches essential for RAG systems." },
+            { id: 46, domain: "Domain 3: Advanced Applications", question: "How can prompt engineering be used for data transformation?", choices: ["By prompting the AI to convert messy text into an orderly JSON format or CSV table", "By defragmenting the database server's hard drive", "By replacing the internet cable", "By scanning physical documents using a printer"], answer: 0, explanation: "LLMs possess powerful parsing capabilities that can restructure unstructured natural language notes into structured programmatic formats." },
+            { id: 47, domain: "Domain 3: Advanced Applications", question: "What does \"Synthetic Data Generation\" mean?", choices: ["Fake data used to trick customers", "The creation of artificial but realistic data using AI to test systems or train other models without violating real human privacy", "Data made of plastic", "A backup file corrupted by a virus"], answer: 1, explanation: "Synthetic data simulates realistic data patterns for testing and training while safeguarding sensitive personal identifying information." },
+            { id: 48, domain: "Domain 3: Advanced Applications", question: "Which of the following is an example of Automated Prompt Engineering (APE)?", choices: ["Writing a prompt using a ballpoint pen", "Using one AI model to automatically create, optimize, and select the most effective prompts for another AI model", "Manually typing prompts repeatedly", "Hiring a human consultant"], answer: 1, explanation: "APE leverages machine intelligence to search, test, and optimize prompt variations automatically for peak performance." },
+            { id: 49, domain: "Domain 3: Advanced Applications", question: "How does the \"ReAct\" (Reason and Act) framework help AI agents?", choices: ["It makes the AI agent angry at the user", "It combines the AI's analytical reasoning capability while executing actions using tools in an iterative back-and-forth process", "It lowers CPU speed to save energy", "It automatically closes the AI application when an error occurs"], answer: 1, explanation: "ReAct interleaving lets models reason about what action to take next, execute it via tools, observe results, and reason again." },
+            { id: 50, domain: "Domain 3: Advanced Applications", question: "What is the purpose of using \"Few-shot examples\" in data classification workflows?", choices: ["To teach the AI how to classify data by showing the correct label for specific types of text", "To delete old categories in the database", "To make output charts more colorful", "To limit internet data consumption"], answer: 0, explanation: "Providing labeled examples anchors the classification boundaries, ensuring the model maps incoming data to the correct categories." },
+            { id: 51, domain: "Domain 3: Advanced Applications", question: "What does \"Token Economy\" mean in building AI applications?", choices: ["The price of cryptocurrency tokens in the market", "Cost optimization management because AI API usage fees are based on input and output token volume", "Selling coins inside AI games", "The total number of computers in a network"], answer: 1, explanation: "Token economy principles focus on managing prompt length and response size efficiently to minimize API operational costs." },
+            { id: 52, domain: "Domain 3: Advanced Applications", question: "Which of the following is a risk of having a massive prompt with hundreds of pages of context?", choices: ["AI responses will instantly become faster with no extra cost", "Higher API costs and increased latency (time before the AI responds)", "Permanent damage to the provider's server AI model", "Uninstallation of the user's web browser"], answer: 1, explanation: "Larger context windows require more computational power, leading to higher token billing and longer response times." },
+            { id: 53, domain: "Domain 3: Advanced Applications", question: "What is the advantage of feeding a database schema (such as SQL DDL) to an LLM in a prompt?", choices: ["To give the AI the capability to generate accurate SQL queries for that database", "To delete database tables", "To encrypt the database administrator's password", "To convert the database into a Word document"], answer: 0, explanation: "Providing structural schema maps lets the model understand table relations, column names, and data types to write precise queries." },
+            { id: 54, domain: "Domain 3: Advanced Applications", question: "What does \"Chaining Prompts across multiple models\" mean?", choices: ["Forcing an AI model to mimic another brand of AI", "Using the output of one model (e.g., a text model) as input to another model (e.g., an image or voice model) in a single pipeline", "Linking computers using a LAN cable", "Shutting down all models simultaneously"], answer: 1, explanation: "Cross-model chaining builds sophisticated pipelines where text models feed parameters into image generation or text-to-speech models." },
+            { id: 55, domain: "Domain 3: Advanced Applications", question: "How does the phrase \"Check your work for errors before giving the final answer\" help in a prompt?", choices: ["It forces the AI to perform an internal self-correction or verification step to reduce hallucinations", "It activates the computer's antivirus software", "It directs the AI to send an email to its supervisor", "It lowers response quality to save electricity"], answer: 0, explanation: "Asking the model to review its logic before outputting encourages a secondary validation check, catching minor errors." },
+            { id: 56, domain: "Domain 3: Advanced Applications", question: "What is a \"Temperature Sweep\" in AI enterprise testing?", choices: ["Monitoring the heat of the AI server rack in a data center", "Testing the same prompt across different temperature settings to see which gives the most reliable result", "Adjusting the air conditioning in the prompt engineers' office", "Replacing thermopaste on a computer processor"], answer: 1, explanation: "A temperature sweep helps developers empirically evaluate how stochastic variance impacts output quality for a specific task." },
+
+            // Domain 4: Security, Privacy, and Ethics in Prompting (57-75)
+            { id: 57, domain: "Domain 4: Security, Privacy, & Ethics", question: "What does \"Prompt Injection\" mean?", choices: ["A way to speed up AI using electricity", "Manipulating AI input to bypass or break original rules or system guardrails set by developers", "Buying extra tokens using a credit card", "Installing AI on a smartphone"], answer: 1, explanation: "Prompt injection is a vulnerability where malicious inputs trick the model into ignoring its core safety guidelines or instructions." },
+            { id: 58, domain: "Domain 4: Security, Privacy, & Ethics", question: "Which of the following is an example of a \"Jailbreak\" attack on an LLM?", choices: ["Formatting the hard drive where AI is saved", "Using deceptive stories or hypothetical scenarios (such as \"DAN\" or Do Anything Now) to force the AI to answer prohibited topics like building a bomb", "Entering a server room without an ID card", "Downloading a cracked version of AI software"], answer: 1, explanation: "Jailbreaking uses adversarial framing or roleplay loopholes to bypass safety filters and coerce the model into providing restricted information." },
+            { id: 59, domain: "Domain 4: Security, Privacy, & Ethics", question: "What does \"Data Leakage\" mean in the context of using public LLMs (like the free version of ChatGPT)?", choices: ["Water leaking from a server cooling system", "The accidental inclusion of sensitive or confidential corporate data in prompts that can be used by the AI provider for public model training", "Losing internet connection while exporting a file", "A drop in social media follower counts"], answer: 1, explanation: "Public LLMs often ingest user chat inputs for future training unless enterprise privacy protections are explicitly enabled, risking proprietary data leaks." },
+            { id: 60, domain: "Domain 4: Security, Privacy, & Ethics", question: "Which of the following is the SAFEST way for a company to use an LLM without risking their trade secrets?", choices: ["Post data on a public forum before prompting", "Use enterprise-grade AI instances with clear Data Privacy Agreements (DPA) stating that prompts WILL NOT be used for model training", "Ask the AI not to tell anyone the secret", "Type the prompt with eyes closed"], answer: 1, explanation: "Enterprise contracts guarantee data isolation, ensuring input data is kept private and excluded from training pipelines." },
+            { id: 61, domain: "Domain 4: Security, Privacy, & Ethics", question: "What is the definition of \"Algorithmic Bias\" in LLMs?", choices: ["The speed of AI code execution", "The presence of unfair, prejudiced, or discriminatory viewpoints in AI output due to flawed patterns in its training data", "The purchasing price of AI software", "The shape of an AI application's graphic interface"], answer: 1, explanation: "Algorithmic bias reflects societal or statistical skews present in training corpora, causing discriminatory or skewed outputs." },
+            { id: 62, domain: "Domain 4: Security, Privacy, & Ethics", question: "What does \"Indirect Prompt Injection\" mean?", choices: ["Directly typing malicious commands into a user's chat box", "When the AI reads an external website or document containing hidden malicious instructions that alter the AI's behavior without the user knowing", "Turning off the router while an AI agent works", "Using a bluetooth keyboard to prompt"], answer: 1, explanation: "Indirect injection happens when an LLM consumes external data (like a compromised webpage) containing embedded adversarial text commands." },
+            { id: 63, domain: "Domain 4: Security, Privacy, & Ethics", question: "How do \"Content Moderation Filters\" (such as OpenAI Moderation API) help?", choices: ["They increase image resolution in AI", "They automatically review and block inputs or outputs containing violence, hate speech, explicit sexual content, or self-harm", "They make AI text fonts more colorful", "They send text messages to police whenever an error occurs"], answer: 1, explanation: "Moderation layers act as gatekeepers, filtering out harmful or toxic content before it reaches the model or the end user." },
+            { id: 64, domain: "Domain 4: Security, Privacy, & Ethics", question: "Which of the following is an ethical rule when using Generative AI for writing news or articles?", choices: ["Always hide that AI did it so readers do not lose trust", "Be transparent and clearly disclose what parts of the content were generated or assisted by AI, and ensure it is human-fact-checked", "Copy someone else's work and pass it to AI to change some words to evade plagiarism checkers", "Let AI invent stories to make news more exciting"], answer: 1, explanation: "Ethical AI journalism requires transparent disclosure of AI assistance alongside rigorous human editorial verification." },
+            { id: 65, domain: "Domain 4: Security, Privacy, & Ethics", question: "What does \"PII\" stand for, which should not be included in prompts on public AI?", choices: ["Private Internet Information", "Personally Identifiable Information (such as full name, address, credit card, or medical records)", "Program Input Interface", "Public Intelligence Indicator"], answer: 1, explanation: "PII refers to data that can trace back to an individual's identity, which must be protected from exposure in public LLM prompts." },
+            { id: 66, domain: "Domain 4: Security, Privacy, & Ethics", question: "What is the purpose of \"Red Teaming\" in AI safety operations?", choices: ["Building a group to edit red graphics in AI games", "Deliberately attacking, prompting malicious scenarios, and finding vulnerabilities in the AI system by experts to fix them before public launch", "Forcing AI to side with a specific political party", "Buying red computer servers"], answer: 1, explanation: "AI red teaming employs ethical hackers and safety researchers to stress-test models against security exploits and jailbreaks." },
+            { id: 67, domain: "Domain 4: Security, Privacy, & Ethics", question: "Why is the AI behavior of \"Sycophancy\" (Excessive agreement) dangerous?", choices: ["Because AI will always fight with the user", "Because AI agrees with the user's false beliefs or wrong facts just to please them, instead of providing correct information", "Because AI stops working when praised by the user", "Because it deletes a company's backup files"], answer: 1, explanation: "Sycophancy occurs when models pander to user biases or mistakes rather than correcting them objectively, validating misinformation." },
+            { id: 68, domain: "Domain 4: Security, Privacy, & Ethics", question: "What does \"Copyright Infringement Risk\" mean in Generative AI?", choices: ["The risk of breaking a computer due to pirated software", "The risk that AI output (text or image) becomes too similar to a protected original human work, resulting in legal lawsuits", "Losing a driver's license", "Paying taxes to the wrong agency"], answer: 1, explanation: "Because generative models learn from vast copyrighted datasets, outputs can occasionally mimic protected material closely enough to raise legal liability." },
+            { id: 69, domain: "Domain 4: Security, Privacy, & Ethics", question: "How can a prompt engineer prevent Prompt Injection in an app using an LLM?", choices: ["By using strong delimiters and running user input through a separate validation/moderation layer before sending it to the main LLM", "By deleting the system prompt daily", "By banning all app users", "By changing the office Wi-Fi password"], answer: 0, explanation: "Layered defense mechanisms, strict delimiter separation, and input sanitization layers help neutralize injection payloads." },
+            { id: 70, domain: "Domain 4: Security, Privacy, & Ethics", question: "What is meant by the \"Stochastic Parrot\" criticism of LLMs?", choices: ["The trait of AI to fly and talk like a real bird", "The idea that LLMs merely repeat words based on statistical patterns without true understanding, consciousness, or meaning in what they say", "A well-known computer virus from the past", "An algorithm for predicting weather forecasts"], answer: 1, explanation: "The stochastic parrot critique highlights that LLMs synthesize statistical text patterns without possessing actual semantic comprehension or intent." },
+            { id: 71, domain: "Domain 4: Security, Privacy, & Ethics", question: "What does \"Hallucination Defense\" mean in prompt design?", choices: ["Using medicine for computer viruses", "Feeding concrete grounding documents and instructing the AI to \"choose only from the provided text and say 'I don't know' if the answer is not there\" to prevent fabricated answers", "Turning off the monitor while AI processes", "Changing the operating system wallpaper"], answer: 1, explanation: "Hallucination defense frameworks restrict model behavior to strict retrieval context limits, forcing explicit admissions of missing information." },
+            { id: 72, domain: "Domain 4: Security, Privacy, & Ethics", question: "Legally speaking, who is considered liable if an AI-generated medical advice harms a patient because it was not reviewed by a human?", choices: ["The AI model itself because it typed the answer", "The organization or professional who deployed and provided that AI tool to the patient without adequate human validation", "The maker of the patient's computer keyboard", "None, because there are no laws for technology"], answer: 1, explanation: "Legal accountability always rests with the human deployers and organizations utilizing AI systems, not the software itself." },
+            { id: 73, domain: "Domain 4: Security, Privacy, & Ethics", question: "How do \"Deepfakes\" affect information security on the internet?", choices: ["They speed up website performance", "They are used to create ultra-realistic but fake videos or voices of public figures or officials to spread misinformation (disinformation) or scam people", "They protect internet users' passwords", "They make all streaming sites free"], answer: 1, explanation: "Deepfakes weaponize generative video and audio synthesis to impersonate individuals, threatening personal security and public trust." },
+            { id: 74, domain: "Domain 4: Security, Privacy, & Ethics", question: "What is the ethical concern where widespread use of AI Prompting may cause job losses for entry-level workers called?", choices: ["Digital Divide", "Workforce Displacement / Job Displacement", "Economic Inflation", "Cyber Bullying"], answer: 1, explanation: "AI automation substitutes routine entry-level cognitive tasks, raising socio-economic concerns regarding structural workforce displacement." },
+            { id: 75, domain: "Domain 4: Security, Privacy, & Ethics", question: "What is the definition of \"Explainable AI\" (XAI)?", choices: ["An AI that knows how to speak in different human languages", "The design of AI systems where humans can easily understand and explain the process and reasoning behind how the AI arrived at a particular decision or output", "A course for those wanting to become prompt engineers", "The documentation of warranty of computer hardware"], answer: 1, explanation: "Explainable AI provides transparency mechanisms that unpack \"black box\" decisions into interpretable reasoning paths for humans." }
+        ];
+
+        // --- GLOBAL APP STATE ---
+        let candidateName = "";
+        let activeQuestions = []; // Shuffled questions & choices
+        let currentIndex = 0;
+        let userAnswers = {}; // Map: question index -> chosen index
+        let flaggedQuestions = new Set(); // Set of question indices
+        let timerInterval = null;
+        let elapsedSeconds = 0;
+        let reviewFilter = 'all';
+        let auditFilter = 'all';
+
+        // --- UTILITY: SHUFFLE ARRAY ---
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // --- INITIALIZATION / START QUIZ ---
+        function startQuiz() {
+            const nameInput = document.getElementById('input-name');
+            candidateName = nameInput.value.trim();
+            if (!candidateName) return;
+
+            // Update UI Header
+            document.getElementById('display-user-name').innerText = candidateName;
+            document.getElementById('header-user-info').classList.remove('hidden');
+            document.getElementById('header-user-info').classList.add('flex');
+
+            // Reset state and randomize questions & choices
+            activeQuestions = MASTER_QUESTIONS.map(q => {
+                // Shuffle choices while tracking correct answer original string
+                const originalCorrectText = q.choices[q.answer];
+                const choicesMapped = q.choices.map((text) => ({ text }));
+                const shuffledChoices = shuffleArray(choicesMapped);
+                const newCorrectIndex = shuffledChoices.findIndex(c => c.text === originalCorrectText);
+
+                return {
+                    originalId: q.id,
+                    domain: q.domain,
+                    question: q.question,
+                    choices: shuffledChoices.map(c => c.text),
+                    correctAnswer: newCorrectIndex,
+                    explanation: q.explanation
+                };
+            });
+
+            activeQuestions = shuffleArray(activeQuestions);
+
+            currentIndex = 0;
+            userAnswers = {};
+            flaggedQuestions.clear();
+            elapsedSeconds = 0;
+
+            // Start Timer
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+
+            // Switch Screen
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('flex');
+
+            // Render current question
+            renderQuestion();
+            updateNavigationPalettes();
+            updateProgressHeader();
+        }
+
+        // --- TIMER DISPLAY ---
+        function updateTimerDisplay() {
+            const hrs = String(Math.floor(elapsedSeconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((elapsedSeconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(elapsedSeconds % 60).padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${hrs}:${mins}:${secs}`;
+        }
+
+        // --- RENDER QUESTION ---
+        function renderQuestion() {
+            const q = activeQuestions[currentIndex];
+
+            // Domain & Tags
+            document.getElementById('question-domain-tag').innerText = q.domain;
+            document.getElementById('question-number-title').innerText = `Question ${currentIndex + 1} of ${activeQuestions.length}`;
+            document.getElementById('question-text').innerText = q.question;
+
+            // Flag state
+            const isFlagged = flaggedQuestions.has(currentIndex);
+            const flagBtn = document.getElementById('btn-flag-question');
+            const flagText = document.getElementById('flag-btn-text');
+            if (isFlagged) {
+                flagBtn.classList.add('text-amber-400', 'border-amber-500/50', 'bg-amber-500/10');
+                flagText.innerText = 'Flagged';
+            } else {
+                flagBtn.classList.remove('text-amber-400', 'border-amber-500/50', 'bg-amber-500/10');
+                flagText.innerText = 'Flag for Review';
+            }
+
+            // Options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const optionLabels = ['A', 'B', 'C', 'D'];
+            q.choices.forEach((choiceText, optIdx) => {
+                const isSelected = userAnswers[currentIndex] === optIdx;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectOption(optIdx);
+                btn.className = `w-full text-left p-4 rounded-xl border transition flex items-start space-x-3.5 group ${
+                    isSelected 
+                        ? 'bg-indigo-600/20 border-indigo-500 text-white ring-1 ring-indigo-500' 
+                        : 'bg-slate-950/60 border-slate-800 text-slate-300 hover:bg-slate-800/80 hover:border-slate-700'
+                }`;
+
+                btn.innerHTML = `
+                    <span class="w-7 h-7 rounded-lg text-xs font-mono font-bold flex items-center justify-center shrink-0 transition ${
+                        isSelected 
+                            ? 'bg-indigo-600 text-white shadow-md' 
+                            : 'bg-slate-800 text-slate-400 group-hover:bg-slate-700 group-hover:text-white'
+                    }">${optionLabels[optIdx]}</span>
+                    <span class="text-sm font-medium leading-relaxed pt-0.5">${choiceText}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            // Prev / Next button states
+            document.getElementById('btn-prev-q').disabled = currentIndex === 0;
+            const nextBtnText = document.getElementById('next-btn-text');
+            if (currentIndex === activeQuestions.length - 1) {
+                nextBtnText.innerText = 'Review Summary';
+            } else {
+                nextBtnText.innerText = 'Next';
+            }
+
+            updateNavigationPalettes();
+            updateProgressHeader();
+        }
+
+        // --- OPTION SELECTION ---
+        function selectOption(optIndex) {
+            userAnswers[currentIndex] = optIndex;
+            renderQuestion();
+        }
+
+        // --- TOGGLE FLAG ---
+        function toggleFlagCurrentQuestion() {
+            if (flaggedQuestions.has(currentIndex)) {
+                flaggedQuestions.delete(currentIndex);
+            } else {
+                flaggedQuestions.add(currentIndex);
+            }
+            renderQuestion();
+        }
+
+        // --- NAVIGATION ---
+        function navigateQuestion(direction) {
+            if (direction === 1 && currentIndex === activeQuestions.length - 1) {
+                jumpToReviewScreen();
+                return;
+            }
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= activeQuestions.length) currentIndex = activeQuestions.length - 1;
+            renderQuestion();
+        }
+
+        function jumpToQuestion(idx) {
+            currentIndex = idx;
+            toggleGridModal(false);
+            
+            // Ensure quiz screen active
+            document.getElementById('screen-review').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('flex');
+            
+            renderQuestion();
+        }
+
+        // --- PALETTES & PROGRESS ---
+        function updateProgressHeader() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = activeQuestions.length;
+            const pct = (answeredCount / total) * 100;
+
+            document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+            document.getElementById('quiz-progress-text').innerText = `${answeredCount} / ${total} Answered`;
+            document.getElementById('answered-badge').innerText = `${answeredCount} / ${total} Answered`;
+        }
+
+        function updateNavigationPalettes() {
+            const desktopPalette = document.getElementById('desktop-grid-palette');
+            const modalPalette = document.getElementById('modal-grid-palette');
+
+            desktopPalette.innerHTML = '';
+            modalPalette.innerHTML = '';
+
+            activeQuestions.forEach((_, idx) => {
+                const isAnswered = userAnswers.hasOwnProperty(idx);
+                const isCurrent = idx === currentIndex;
+                const isFlagged = flaggedQuestions.has(idx);
+
+                let bgClass = 'bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-800';
+                if (isAnswered) bgClass = 'bg-indigo-600 text-white border-indigo-500 font-bold';
+                if (isFlagged) bgClass = 'bg-amber-500 text-slate-950 font-bold border-amber-400';
+                if (isCurrent) bgClass += ' ring-2 ring-cyan-400 font-extrabold';
+
+                const cell = document.createElement('button');
+                cell.onclick = () => jumpToQuestion(idx);
+                cell.className = `h-8 w-full rounded-md text-xs font-mono transition flex items-center justify-center relative ${bgClass}`;
+                cell.innerText = idx + 1;
+
+                if (isFlagged && isAnswered) {
+                    const dot = document.createElement('span');
+                    dot.className = 'absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-amber-300';
+                    cell.appendChild(dot);
+                }
+
+                desktopPalette.appendChild(cell);
+                modalPalette.appendChild(cell.cloneNode(true));
+            });
+            
+            // Re-assign onclick event listeners for cloned nodes in modal
+            Array.from(modalPalette.children).forEach((child, i) => {
+                child.onclick = () => jumpToQuestion(i);
+            });
+        }
+
+        function toggleGridModal(show) {
+            const modal = document.getElementById('modal-grid');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        // --- PRE-SUBMISSION REVIEW SCREEN ---
+        function jumpToReviewScreen() {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-review').classList.remove('hidden');
+            renderReviewTable();
+        }
+
+        function returnToQuizFromReview() {
+            document.getElementById('screen-review').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('flex');
+            renderQuestion();
+        }
+
+        function filterReviewTable(filter) {
+            reviewFilter = filter;
+            ['all', 'unanswered', 'flagged'].forEach(f => {
+                const btn = document.getElementById(`filter-review-${f}`);
+                if (f === filter) {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold';
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700';
+                }
+            });
+            renderReviewTable();
+        }
+
+        function renderReviewTable() {
+            const tbody = document.getElementById('review-table-body');
+            tbody.innerHTML = '';
+
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = activeQuestions.length;
+            const unansweredCount = total - answeredCount;
+
+            document.getElementById('review-completion-status').innerText = `${answeredCount} / ${total} Answered`;
+
+            // Warning banner check
+            const warningBanner = document.getElementById('review-warning-banner');
+            const finalGradeBtn = document.getElementById('btn-final-grade');
+
+            if (unansweredCount > 0) {
+                warningBanner.classList.remove('hidden');
+                document.getElementById('warning-count-text').innerText = `${unansweredCount} question(s) still require an answer. Completion of all 75 questions is mandatory.`;
+                finalGradeBtn.disabled = true;
+                finalGradeBtn.title = "Answer all questions to submit";
+            } else {
+                warningBanner.classList.add('hidden');
+                finalGradeBtn.disabled = false;
+                finalGradeBtn.title = "Submit for scoring";
+            }
+
+            activeQuestions.forEach((q, idx) => {
+                const isAnswered = userAnswers.hasOwnProperty(idx);
+                const isFlagged = flaggedQuestions.has(idx);
+
+                if (reviewFilter === 'unanswered' && isAnswered) return;
+                if (reviewFilter === 'flagged' && !isFlagged) return;
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/40 transition';
+
+                let statusBadge = `<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Answered</span>`;
+                if (!isAnswered) {
+                    statusBadge = `<span class="px-2 py-0.5 rounded text-[11px] font-mono bg-rose-500/10 text-rose-400 border border-rose-500/20">Unanswered</span>`;
+                }
+
+                let flaggedTag = '';
+                if (isFlagged) {
+                    flaggedTag = `<span class="ml-1.5 px-2 py-0.5 rounded text-[11px] font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20"><i class="fa-solid fa-flag text-[9px] mr-1"></i>Flagged</span>`;
+                }
+
+                tr.innerHTML = `
+                    <td class="p-3 text-center font-mono font-bold text-slate-400">${idx + 1}</td>
+                    <td class="p-3">
+                        <div class="text-slate-200 line-clamp-1 font-medium">${q.question}</div>
+                        <div class="text-[11px] text-slate-500 font-mono mt-0.5">${q.domain}</div>
+                    </td>
+                    <td class="p-3">
+                        <div class="flex items-center">${statusBadge}${flaggedTag}</div>
+                    </td>
+                    <td class="p-3 text-center">
+                        <button onclick="jumpToQuestion(${idx})" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded border border-slate-700 text-xs font-mono">
+                            Edit
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function jumpToFirstUnanswered() {
+            for (let i = 0; i < activeQuestions.length; i++) {
+                if (!userAnswers.hasOwnProperty(i)) {
+                    jumpToQuestion(i);
+                    return;
+                }
+            }
+        }
+
+        // --- FINAL SUBMISSION & GRADING ENGINE ---
+        function confirmFinalSubmission() {
+            if (Object.keys(userAnswers).length < activeQuestions.length) {
+                jumpToFirstUnanswered();
+                return;
+            }
+
+            if (confirm("Are you sure you want to finalize and submit your exam for grading?")) {
+                gradeExam();
+            }
+        }
+
+        function gradeExam() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            // Compute metrics
+            let totalCorrect = 0;
+            const domainStats = {};
+
+            activeQuestions.forEach((q, idx) => {
+                const userChoice = userAnswers[idx];
+                const isCorrect = userChoice === q.correctAnswer;
+
+                if (isCorrect) totalCorrect++;
+
+                // Track domain statistics
+                if (!domainStats[q.domain]) {
+                    domainStats[q.domain] = { correct: 0, total: 0 };
+                }
+                domainStats[q.domain].total++;
+                if (isCorrect) domainStats[q.domain].correct++;
+            });
+
+            const scorePercent = Math.round((totalCorrect / activeQuestions.length) * 100);
+            const passed = scorePercent >= 80;
+
+            // Render Results Header
+            document.getElementById('results-candidate-name').innerText = candidateName;
+            document.getElementById('result-score-percent').innerText = `${scorePercent}%`;
+            document.getElementById('result-score-ratio').innerText = `${totalCorrect} / ${activeQuestions.length} Correct`;
+
+            // Time string
+            const mins = Math.floor(elapsedSeconds / 60);
+            const secs = elapsedSeconds % 60;
+            document.getElementById('result-time-taken').innerText = `${mins}m ${secs}s`;
+
+            // Pass / Fail badge
+            const badge = document.getElementById('pass-fail-badge');
+            const icon = document.getElementById('pass-fail-icon');
+            const passText = document.getElementById('pass-fail-text');
+
+            if (passed) {
+                badge.className = "px-5 py-2.5 rounded-xl font-bold text-sm uppercase tracking-wider flex items-center space-x-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-emerald-500/10";
+                icon.className = "fa-solid fa-award text-base text-emerald-400";
+                passText.innerText = "PASSED CERTIFICATION";
+                document.getElementById('result-accuracy-rating').innerText = "Qualified";
+            } else {
+                badge.className = "px-5 py-2.5 rounded-xl font-bold text-sm uppercase tracking-wider flex items-center space-x-2 bg-rose-500/10 text-rose-400 border border-rose-500/30 shadow-rose-500/10";
+                icon.className = "fa-solid fa-circle-xmark text-base text-rose-400";
+                passText.innerText = "NEEDS IMPROVEMENT";
+                document.getElementById('result-accuracy-rating').innerText = "Below Cutoff";
+            }
+
+            // Domain Breakdown Render
+            const domainContainer = document.getElementById('domain-breakdown-container');
+            domainContainer.innerHTML = '';
+
+            Object.keys(domainStats).forEach(dom => {
+                const stat = domainStats[dom];
+                const pct = Math.round((stat.correct / stat.total) * 100);
+
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 p-3.5 rounded-xl space-y-2";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-medium text-slate-300 line-clamp-1">${dom}</span>
+                        <span class="font-mono font-bold text-indigo-400">${pct}% (${stat.correct}/${stat.total})</span>
+                    </div>
+                    <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                        <div class="bg-indigo-500 h-full rounded-full" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                domainContainer.appendChild(card);
+            });
+
+            // Switch to Results Screen
+            document.getElementById('screen-review').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-results').classList.remove('hidden');
+
+            renderResultsAudit();
+        }
+
+        // --- RESULTS AUDIT RENDER & FILTER ---
+        function filterResultsAudit(filter) {
+            auditFilter = filter;
+            ['all', 'incorrect', 'flagged'].forEach(f => {
+                const btn = document.getElementById(`audit-filter-${f}`);
+                if (f === filter) {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold';
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700';
+                }
+            });
+            renderResultsAudit();
+        }
+
+        function renderResultsAudit() {
+            const container = document.getElementById('results-audit-container');
+            container.innerHTML = '';
+
+            activeQuestions.forEach((q, idx) => {
+                const userChoice = userAnswers[idx];
+                const isCorrect = userChoice === q.correctAnswer;
+                const isFlagged = flaggedQuestions.has(idx);
+
+                if (auditFilter === 'incorrect' && isCorrect) return;
+                if (auditFilter === 'flagged' && !isFlagged) return;
+
+                const optionLabels = ['A', 'B', 'C', 'D'];
+                const card = document.createElement('div');
+                card.className = `border rounded-xl p-5 space-y-4 ${
+                    isCorrect ? 'bg-slate-900/60 border-slate-800' : 'bg-rose-950/10 border-rose-900/30'
+                }`;
+
+                let optionsListHtml = '';
+                q.choices.forEach((choiceText, optIdx) => {
+                    let optStyle = 'bg-slate-950/60 border-slate-800/80 text-slate-400';
+                    let badge = '';
+
+                    if (optIdx === q.correctAnswer) {
+                        optStyle = 'bg-emerald-500/10 border-emerald-500/40 text-emerald-200 font-semibold';
+                        badge = `<span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Correct Answer</span>`;
+                    }
+                    
+                    if (optIdx === userChoice && !isCorrect) {
+                        optStyle = 'bg-rose-500/10 border-rose-500/40 text-rose-200 font-semibold';
+                        badge = `<span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30">Your Choice</span>`;
+                    } else if (optIdx === userChoice && isCorrect) {
+                        badge = `<span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Your Choice</span>`;
+                    }
+
+                    optionsListHtml += `
+                        <div class="p-3 rounded-lg border ${optStyle} flex items-center space-x-3 text-xs sm:text-sm">
+                            <span class="w-6 h-6 rounded text-xs font-mono font-bold flex items-center justify-center bg-slate-900 shrink-0">${optionLabels[optIdx]}</span>
+                            <span>${choiceText}</span>
+                            ${badge}
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-3 border-b border-slate-800 pb-3">
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-mono font-semibold text-slate-400">${q.domain}</span>
+                            <h4 class="text-sm sm:text-base font-semibold text-slate-100">${idx + 1}. ${q.question}</h4>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold shrink-0 ${
+                            isCorrect ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
+                        }">
+                            ${isCorrect ? 'CORRECT' : 'INCORRECT'}
+                        </span>
+                    </div>
+
+                    <div class="space-y-2">
+                        ${optionsListHtml}
+                    </div>
+
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs sm:text-sm space-y-1">
+                        <div class="font-mono font-bold text-indigo-400 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Explanation:</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed">${q.explanation}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- RETAKE FULL QUIZ ---
+        function restartFullQuiz() {
+            document.getElementById('screen-results').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
